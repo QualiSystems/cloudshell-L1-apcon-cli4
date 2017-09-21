@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 import re
 
-import mrv.command_templates.autoload as command_template
+import apcon_cli4.command_templates.autoload as command_template
 from cloudshell.cli.command_template.command_template_executor import CommandTemplateExecutor
 
 

@@ -7,9 +7,10 @@ from cloudshell.cli.command_template.command_template import CommandTemplate
 
 ACTION_MAP = OrderedDict()
 ERROR_MAP = OrderedDict(
-    [(r'[Ee]rror:', 'Command error'), (r'[Hh]ardware\s[Ii]ncompatibility', 'Mapping error, Hardware incompatibility')])
+    [(r'[Ee]rror:', 'Mapping error, Hardware incompatibility')])
 
-MAP_BIDI = CommandTemplate('map bidir {src_port} {dst_port}', ACTION_MAP, ERROR_MAP)
-MAP_UNI = CommandTemplate('map {src_port} also-to {dst_port}', ACTION_MAP, ERROR_MAP)
-MAP_CLEAR_TO = CommandTemplate('map {src_port} not-to {dst_port}', ACTION_MAP, ERROR_MAP)
-MAP_CLEAR = CommandTemplate('map {port} clear-all', ACTION_MAP, ERROR_MAP)
+MAP_BIDI = CommandTemplate('connect duplex {src_port} {dst_port}', ACTION_MAP, ERROR_MAP)
+MAP_UNI = CommandTemplate('connect aggregation {src_port} {dst_port}', ACTION_MAP, ERROR_MAP)
+MAP_TAP = CommandTemplate('connect aggregation duplex {src_port} {dst_port} {tap_port}', ACTION_MAP, ERROR_MAP)
+MAP_CLEAR = CommandTemplate('disconnect {port}', ACTION_MAP, ERROR_MAP)
+GET_CURRENT_CONNECTIONS = CommandTemplate('show connections raw', ACTION_MAP, ERROR_MAP)
