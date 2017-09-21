@@ -1,6 +1,7 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 import re
+from collections import defaultdict
 
 import apcon_cli4.command_templates.autoload as command_template
 from cloudshell.cli.command_template.command_template_executor import CommandTemplateExecutor
@@ -27,54 +28,44 @@ class AutoloadActions(object):
         Chassis table
         :return:
         """
-        output = CommandTemplateExecutor(self._cli_service, command_template.CHASSIS_TABLE).execute_command()
-        result = self._parse_table(output)
-        return result
+        output = CommandTemplateExecutor(self._cli_service, command_template.CHASSIS_INFO).execute_command()
+        chassis_table = {}
+        for line in output.split('\n'):
+            if line.strip():
+                name, value = line.split(':', 1)
+                chassis_table[name.strip()] = value.strip()
+        return chassis_table
 
     def slot_table(self):
         """
         Slot table
         :return:
         """
-        output = CommandTemplateExecutor(self._cli_service, command_template.SLOT_TABLE).execute_command()
-        result = self._parse_table(output)
-        return result
+        output = CommandTemplateExecutor(self._cli_service, command_template.BLADE_INFO).execute_command()
+        blade_table = defaultdict(dict)
+        for line in output.split('\n'):
+            if line.strip():
+                key, value = line.split(':', 1)
+                match = re.search(r'Blade\s(?P<letter>[A-Z])\s(?P<name>.+)', key)
+                if match:
+                    blade_table[match.group('letter').strip()][match.group('name').strip()] = value.strip()
+        return blade_table
 
     def port_table(self):
         """
         Port table
         :return:
         """
-        output = CommandTemplateExecutor(self._cli_service, command_template.PORT_TABLE).execute_command()
+        output = CommandTemplateExecutor(self._cli_service, command_template.PORT_INFO).execute_command()
         result = self._parse_table(output)
         return result
 
-    def protocol_table(self):
+    def mapping_info(self):
         """
         Protocol table
         :return: 
         """
-        output = CommandTemplateExecutor(self._cli_service, command_template.PROTOCOL_TABLE).execute_command()
+        output = CommandTemplateExecutor(self._cli_service, command_template.MAPPING_INFO).execute_command()
         result = self._parse_table(output)
         return result
 
-    @staticmethod
-    def _parse_table(data):
-        """
-        Parse table and build dict
-        :param data: 
-        :return: 
-        """
-        result = []
-        line_output = data.split('\n')
-        line_output.reverse()
-        fields = AutoloadActions._split_string(line_output.pop())
-        while line_output:
-            values = AutoloadActions._split_string(line_output.pop())
-            if len(values) == len(fields):
-                result.append(dict(zip(fields, values)))
-        return result
-
-    @staticmethod
-    def _split_string(string):
-        return re.findall('"(.*?)"', string)

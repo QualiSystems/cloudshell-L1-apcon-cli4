@@ -8,8 +8,8 @@ from cloudshell.cli.command_template.command_template import CommandTemplate
 ACTION_MAP = OrderedDict()
 ERROR_MAP = OrderedDict([(r'[Ee]rror:', 'Command error')])
 
-CHASSIS_TABLE = CommandTemplate('show table chassis dump', ACTION_MAP, ERROR_MAP)
-SLOT_TABLE = CommandTemplate('show table slot dump', ACTION_MAP, ERROR_MAP)
-PORT_TABLE = CommandTemplate('show table port dump', ACTION_MAP, ERROR_MAP)
-PROTOCOL_TABLE = CommandTemplate('show table protocol dump', ACTION_MAP, ERROR_MAP)
+CHASSIS_INFO = CommandTemplate('show switch info', ACTION_MAP, ERROR_MAP)
+BLADE_INFO = CommandTemplate('show blade info raw *', ACTION_MAP, ERROR_MAP)
+PORT_INFO = CommandTemplate('show port info *', ACTION_MAP, ERROR_MAP)
+MAPPING_INFO = CommandTemplate('show connections simple', ACTION_MAP, ERROR_MAP)
 
