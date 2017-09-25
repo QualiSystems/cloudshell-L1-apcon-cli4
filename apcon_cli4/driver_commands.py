@@ -22,7 +22,7 @@ class DriverCommands(DriverCommandsInterface):
         self._cli_handler = ApconCliHandler(self._logger)
 
     def get_state_id(self):
-        return GetStateIdResponseInfo(-1)
+        return GetStateIdResponseInfo("-1")
 
     def set_state_id(self, state_id):
         pass
