@@ -40,28 +40,23 @@ class MappingActions(object):
         :return:
         """
 
-        output = CommandTemplateExecutor(self._cli_service, command_template.MAP_UNI).execute_command(
-            src_port=src_port.split("/")[-1], dst_port=dst_port.split("/")[-1])
-        return output
-
-    def map_tap(self, src_port, dst_port):
         tap_src_port = src_port.split("/")[-1]
         tap_dst_port = dst_port.split("/")[-1]
         bidi_dst_port = None
-        output = ""
         current_config = CommandTemplateExecutor(self._cli_service,
                                                  command_template.GET_CURRENT_CONNECTIONS).execute_command()
         if tap_src_port in current_config:
-
             for line in current_config.splitlines():
                 if tap_src_port in line:
                     ports = re.findall(r"[A-Z]\d+", line)
-                    bidi_dst_port = ports[0]
+                    bidi_dst_port = ports[-1]
                     break
         if bidi_dst_port:
-            self.map_clear_to(tap_src_port)
             output = CommandTemplateExecutor(self._cli_service, command_template.MAP_TAP).execute_command(
                 src_port=tap_src_port, dst_port=bidi_dst_port, tap_port=tap_dst_port)
+        else:
+            output = CommandTemplateExecutor(self._cli_service, command_template.MAP_UNI).execute_command(
+                src_port=src_port.split("/")[-1], dst_port=dst_port.split("/")[-1])
         return output
 
     def map_clear(self, ports):
@@ -85,5 +80,5 @@ class MappingActions(object):
         """
 
         output = CommandTemplateExecutor(self._cli_service, command_template.MAP_CLEAR).execute_command(
-            src_port=src_port.split("/")[-1])
+            port=src_port.split("/")[-1])
         return output

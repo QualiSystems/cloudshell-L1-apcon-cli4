@@ -30,7 +30,7 @@ class DriverCommands(DriverCommandsInterface):
     def map_bidi(self, src_port, dst_port):
         with self._cli_handler.default_mode_service() as session:
             _mapping_actions = MappingActions(session, self._logger)
-            return _mapping_actions.map_bidi(src_port, dst_port)
+            _mapping_actions.map_bidi(src_port, dst_port)
 
     def map_uni(self, src_port, dst_port):
         with self._cli_handler.default_mode_service() as session:
@@ -65,6 +65,4 @@ class DriverCommands(DriverCommandsInterface):
         pass
 
     def map_tap(self, src_port, dst_port):
-        with self._cli_handler.default_mode_service() as session:
-            _mapping_actions = MappingActions(session, self._logger)
-            return _mapping_actions.map_tap(src_port, dst_port)
+        pass
