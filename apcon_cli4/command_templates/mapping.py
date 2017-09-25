@@ -9,7 +9,7 @@ ACTION_MAP = OrderedDict()
 ERROR_MAP = OrderedDict(
     [(r'[Ee]rror:', 'Mapping error, Hardware incompatibility')])
 
-MAP_BIDI = CommandTemplate('connect duplex {src_port} {dst_port}', ACTION_MAP, ERROR_MAP)
+MAP_BIDI = CommandTemplate('connect duplex {src_port}{dst_port}', ACTION_MAP, ERROR_MAP)
 MAP_UNI = CommandTemplate('connect aggregation {src_port} {dst_port}', ACTION_MAP, ERROR_MAP)
 MAP_TAP = CommandTemplate('connect aggregation duplex {src_port} {dst_port} {tap_port}', ACTION_MAP, ERROR_MAP)
 MAP_CLEAR = CommandTemplate('disconnect {port}', ACTION_MAP, ERROR_MAP)
