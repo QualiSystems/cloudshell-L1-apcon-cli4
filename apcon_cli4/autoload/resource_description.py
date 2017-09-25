@@ -40,24 +40,13 @@ class ResourceDescription(object):
             model_name = 'Generic L1 Module'
             blade_model = slots_attributes.model_name(address).value
             serial_number = slots_attributes.serial_number(address).value
-            chassis = chassis_dict.get(address.get_chassis_address())
-            blade = Blade(address.index(), model_name, serial_number)
+            blade_address = Address(0, address)
+            chassis = chassis_dict.get(blade_address.get_chassis_address())
+            blade = Blade(blade_address.index(), model_name, serial_number)
             blade.attributes = slots_attributes.get_attributes(address)
-            blades_dict[address] = blade
+            blades_dict[blade_address] = blade
             blade.set_parent_resource(chassis)
         return blades_dict
-
-    # Build ports
-    @staticmethod
-    def _port_mapping_address(data_dict):
-        chassis_id = data_dict.get('chassis_id')
-        if int(chassis_id) > 0:
-            slot_id = data_dict.get('slot_id')
-            port_id = data_dict.get('port_id')
-            port_mapping_address = Address(chassis_id, slot_id, port_id)
-        else:
-            port_mapping_address = None
-        return port_mapping_address
 
     def _build_ports(self, blades_dict):
         ports_dict = {}
@@ -70,7 +59,7 @@ class ResourceDescription(object):
                 port = Port(address.index(), model_name, serial_number)
                 port.attributes = ports_attributes.get_attributes(address)
                 ports_dict[address] = port
-                port_mapping_address = self._port_mapping_address(record)
+                port_mapping_address = record.get("mapped_to")
                 if port_mapping_address:
                     self._mapping_table[address] = port_mapping_address
                 port.set_parent_resource(blade)

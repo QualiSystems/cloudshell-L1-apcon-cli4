@@ -69,7 +69,7 @@ class ApconSlotAttributes(ApconAttributes):
         return StringAttribute(self.MODEL_NAME, value or StringAttribute.DEFAULT_VALUE)
 
     def serial_number(self, address):
-        value = self._resource_table.get(address).get('serail_number')
+        value = self._resource_table.get(address).get('serial_number')
         return StringAttribute(self.SERIAL_NUMBER, value or StringAttribute.DEFAULT_VALUE)
 
 

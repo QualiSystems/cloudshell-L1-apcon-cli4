@@ -46,4 +46,5 @@ if __name__ == "__main__":
     cli_handler.define_session_attributes("192.168.41.47", "admin", "secret")
     with cli_handler.default_mode_service() as session:
         autoload = ApconAutoload(session, logger)
-        autoload.discover_device("192.168.41.47")
+        result = autoload.discover_device("192.168.41.47")
+        print result

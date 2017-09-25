@@ -20,7 +20,6 @@ class DriverCommands(DriverCommandsInterface):
 
         self._logger = logger
         self._cli_handler = ApconCliHandler(self._logger)
-        self._mapping_actions = MappingActions(self._cli_handler, self._logger)
 
     def get_state_id(self):
         return GetStateIdResponseInfo(-1)
@@ -29,17 +28,24 @@ class DriverCommands(DriverCommandsInterface):
         pass
 
     def map_bidi(self, src_port, dst_port):
-        self._mapping_actions.map_bidi(src_port, dst_port)
+        with self._cli_handler.default_mode_service() as session:
+            _mapping_actions = MappingActions(session, self._logger)
+            _mapping_actions.map_bidi(src_port, dst_port)
 
     def map_uni(self, src_port, dst_port):
-        self._mapping_actions.map_uni(src_port, dst_port)
+        with self._cli_handler.default_mode_service() as session:
+            _mapping_actions = MappingActions(session, self._logger)
+            _mapping_actions.map_uni(src_port, dst_port)
 
     def get_resource_description(self, address):
-        apcon_autoload = ApconAutoload(self._cli_handler, self._logger)
-        return apcon_autoload.discover_device(address)
+        with self._cli_handler.default_mode_service() as session:
+            apcon_autoload = ApconAutoload(session, self._logger)
+            return apcon_autoload.discover_device(address)
 
     def map_clear(self, ports):
-        self._mapping_actions.map_clear(ports)
+        with self._cli_handler.default_mode_service() as session:
+            _mapping_actions = MappingActions(session, self._logger)
+            _mapping_actions.map_clear(ports)
 
     def login(self, address, username, password):
         self._cli_handler.define_session_attributes(address, username, password)
@@ -48,7 +54,9 @@ class DriverCommands(DriverCommandsInterface):
             self._logger.info(system_actions.device_info())
 
     def map_clear_to(self, src_port, dst_port):
-        self._mapping_actions.map_clear_to(src_port)
+        with self._cli_handler.default_mode_service() as session:
+            _mapping_actions = MappingActions(session, self._logger)
+            _mapping_actions.map_clear_to(src_port)
 
     def get_attribute_value(self, cs_address, attribute_name):
         pass
@@ -57,4 +65,6 @@ class DriverCommands(DriverCommandsInterface):
         pass
 
     def map_tap(self, src_port, dst_port):
-        return self._mapping_actions.map_tap(src_port, dst_port)
+        with self._cli_handler.default_mode_service() as session:
+            _mapping_actions = MappingActions(session, self._logger)
+            return _mapping_actions.map_tap(src_port, dst_port)
