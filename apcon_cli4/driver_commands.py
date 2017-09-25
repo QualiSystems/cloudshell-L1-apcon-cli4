@@ -1,5 +1,6 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
+from apcon_cli4.autoload.apcon_autoload import ApconAutoload
 from apcon_cli4.cli.apcon_cli_handler import ApconCliHandler
 from apcon_cli4.command_actions.mapping_actions import MappingActions
 from apcon_cli4.command_actions.system_actions import SystemActions
@@ -16,6 +17,7 @@ class DriverCommands(DriverCommandsInterface):
         """
         :param logger: 
         """
+
         self._logger = logger
         self._cli_handler = ApconCliHandler(self._logger)
         self._mapping_actions = MappingActions(self._cli_handler, self._logger)
@@ -33,7 +35,8 @@ class DriverCommands(DriverCommandsInterface):
         self._mapping_actions.map_uni(src_port, dst_port)
 
     def get_resource_description(self, address):
-        pass
+        apcon_autoload = ApconAutoload(self._cli_handler, self._logger)
+        return apcon_autoload.discover_device(address)
 
     def map_clear(self, ports):
         self._mapping_actions.map_clear(ports)
@@ -45,7 +48,7 @@ class DriverCommands(DriverCommandsInterface):
             self._logger.info(system_actions.device_info())
 
     def map_clear_to(self, src_port, dst_port):
-        self._mapping_actions.map_clear_to(src_port, dst_port)
+        self._mapping_actions.map_clear_to(src_port)
 
     def get_attribute_value(self, cs_address, attribute_name):
         pass

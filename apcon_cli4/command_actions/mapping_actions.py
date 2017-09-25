@@ -46,6 +46,7 @@ class MappingActions(object):
 
     def map_tap(self, src_port, dst_port):
         bidi_dst_port = None
+        output = ""
         current_config = CommandTemplateExecutor(self._cli_service,
                                                  command_template.GET_CURRENT_CONNECTIONS).execute_command()
         if src_port in current_config:
@@ -56,10 +57,9 @@ class MappingActions(object):
                     bidi_dst_port = ports[0]
                     break
         if bidi_dst_port:
+            self.map_clear_to(src_port)
             output = CommandTemplateExecutor(self._cli_service, command_template.MAP_TAP).execute_command(
                 src_port=src_port, dst_port=bidi_dst_port, tap_port=dst_port)
-        else:
-            output = self.map_uni(src_port=src_port, dst_port=dst_port)
         return output
 
     def map_clear(self, ports):
