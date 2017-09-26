@@ -87,31 +87,46 @@ class AutoloadActions(object):
                     speed = port_info_line.split(":")[-1]
                     port_info_dict["speed"] = speed
                     port_info_dict["protocol_type"] = speed
+                    continue
 
                 if "protocol" in port_info_line.lower():
                     port_info_dict["protocol"] = port_info_line.split(":")[-1].strip()
+                    continue
 
                 if "wavelength" in port_info_line.lower():
                     port_info_dict["wavelength"] = port_info_line.split(":")[-1].strip()
+                    continue
 
                 if "serial" in port_info_line.lower():
                     port_info_dict["serial_number"] = port_info_line.split(":")[-1].strip()
+                    continue
 
                 if "rx signal" in port_info_line.lower():
                     port_info_dict["rx_signal"] = port_info_line.split(":")[-1].strip()
+                    continue
 
                 if "tx signal" in port_info_line.lower():
                     port_info_dict["tx_signal"] = port_info_line.split(":")[-1].strip()
+                    continue
 
                 if "autoneg" in port_info_line.lower():
                     port_info_dict["autoneg"] = port_info_line.split(":")[-1].strip()
+                    continue
 
                 if "connections" in port_info_line.lower():
+                    # A31 Incoming_mapping = A15
+                    # A15 Incoming mapping = A20
+                    # A20 Incoming mapping = A15
                     map_info = port_info_line.split(":")[-1].strip()
                     if map_info and port in map_info:
                         map_type = map_types_dict.get(map_info.split()[1])
                         if map_type:
-                            port_info_dict["mapped_to"] = Address(0, map_info.split()[-1][:1], map_info.split()[-1])
+                            if map_info.split()[-1] == port:
+                                incoming_port_id = map_info.split()[0]
+                            else:
+                                incoming_port_id = map_info.split()[-1]
+                            incoming_port = Address(0, map_info.split()[-1][:1], incoming_port_id)
+                            port_info_dict["mapped_to"] = incoming_port
 
             port_dict[Address(0, port[:1], port)] = port_info_dict
         return port_dict

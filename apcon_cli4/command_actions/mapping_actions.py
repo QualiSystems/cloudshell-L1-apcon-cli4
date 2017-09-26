@@ -49,7 +49,9 @@ class MappingActions(object):
             for line in current_config.splitlines():
                 if tap_src_port in line:
                     ports = re.findall(r"[A-Z]\d+", line)
-                    bidi_dst_port = ports[-1]
+                    for prt in ports:
+                        if prt != tap_src_port:
+                            bidi_dst_port = prt
                     break
         if bidi_dst_port:
             output = CommandTemplateExecutor(self._cli_service, command_template.MAP_TAP).execute_command(
