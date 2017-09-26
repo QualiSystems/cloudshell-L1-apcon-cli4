@@ -1,7 +1,7 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
-import mrv.command_templates.port_configuration as command_template
+import apcon_cli4.command_templates.port_configuration as command_template
 from cloudshell.cli.command_template.command_template_executor import CommandTemplateExecutor
 
 

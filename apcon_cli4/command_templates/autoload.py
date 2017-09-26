@@ -10,6 +10,7 @@ ERROR_MAP = OrderedDict([(r'[Ee]rror:', 'Command error')])
 
 CHASSIS_INFO = CommandTemplate('show switch info', ACTION_MAP, ERROR_MAP)
 BLADE_INFO = CommandTemplate('show blade info raw *', ACTION_MAP, ERROR_MAP)
-PORT_INFO = CommandTemplate('show port info *', ACTION_MAP, ERROR_MAP)
+PORT_NAMES = CommandTemplate('show port names *', ACTION_MAP, ERROR_MAP)
+PORT_INFO = CommandTemplate('show port info {port_name}', ACTION_MAP, ERROR_MAP)
 MAPPING_INFO = CommandTemplate('show connections simple', ACTION_MAP, ERROR_MAP)
 
