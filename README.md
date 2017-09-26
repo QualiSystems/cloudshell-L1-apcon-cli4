@@ -44,4 +44,6 @@ In step 7 at the above guide, you will need to copy only one exe file, and inste
 | common_variable.connection_port | TCP Port connection, default is 1234 |
 
 ### Known Issues
-*add any known issues or remove this section*
+Initial start	Python L1 driver getting refuse connection when driver starts for the first time. Once driver is running – everything works as expected.
+This issue is resolved in CloudShell 7.0 patch 1 and above.
+
