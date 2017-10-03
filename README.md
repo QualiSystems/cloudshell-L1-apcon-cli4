@@ -1,4 +1,7 @@
 # Apcon CLI4 L1 Driver
+<p align="center">
+<img src="https://github.com/QualiSystems/devguide_source/raw/master/logo.png"></img>
+</p>
 
 ## Overview
 The Apcon CLI4 L1 Driver provides CloudShell Resource Manager with the capability to communicate with switches that are part of the CloudShell inventory.
