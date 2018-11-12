@@ -13,12 +13,13 @@ class DriverCommands(DriverCommandsInterface):
     Driver commands implementation
     """
 
-    def __init__(self, logger):
+    def __init__(self, logger, runtime_config):
         """
-        :param logger: 
+        :type logger: logging.Logger
+        :type runtime_config: cloudshell.layer_one.core.helper.runtime_configuration.RuntimeConfiguration
         """
-
         self._logger = logger
+        self._runtime_config = runtime_config
         self._cli_handler = ApconCliHandler(self._logger)
 
     def get_state_id(self):
@@ -65,4 +66,7 @@ class DriverCommands(DriverCommandsInterface):
         pass
 
     def map_tap(self, src_port, dst_port):
-        pass
+        raise Exception(self.__class__.__name__, 'MapTap is not supported')
+
+    def set_speed_manual(self, src_port, dst_port, speed, duplex):
+        raise NotImplementedError
