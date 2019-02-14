@@ -1,7 +1,7 @@
 @ECHO OFF
 setlocal
 set DRIVER_FOLDER=%~dp0
-set DRIVER_NAME="apcon-cli4"
+set DRIVER_NAME="apcon_cli4"
 set DRIVER_PYTHON="%DRIVER_FOLDER%\Scripts\python.exe"
 set PACKAGES="%DRIVER_FOLDER%\packages"
 set QS_PYTHON_PATH="%DRIVER_FOLDER%\..\..\python"
