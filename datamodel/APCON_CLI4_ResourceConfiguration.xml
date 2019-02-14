@@ -251,6 +251,6 @@
     </ResourceFamilies>
     <DriverDescriptors>
         <DriverDescriptor Name="APCON CLI4" DriverType="L1SwitchTclDriver"
-                          CustomParams="apcon_cli4.exe"/>
+                          CustomParams="apcon-cli4.exe"/>
     </DriverDescriptors>
 </ResourceManagementExportImport>
