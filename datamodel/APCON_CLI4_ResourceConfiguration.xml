@@ -161,7 +161,7 @@
                     <AttributeValues/>
                     <ParentModels/>
                     <Drivers>
-                        <DriverName>Apcon Cli4 Driver</DriverName>
+                        <DriverName>APCON CLI4</DriverName>
                     </Drivers>
                 </ResourceModel>
             </Models>
@@ -186,7 +186,7 @@
                     </AttachedAttributes>
                     <AttributeValues/>
                     <ParentModels>
-                        <ParentModelName>Apcon Cli4</ParentModelName>
+                        <ParentModelName>Apcon Cli4 Chassis</ParentModelName>
                     </ParentModels>
                     <Drivers/>
                 </ResourceModel>
@@ -251,6 +251,6 @@
     </ResourceFamilies>
     <DriverDescriptors>
         <DriverDescriptor Name="APCON CLI4" DriverType="L1SwitchTclDriver"
-                          CustomParams="APCON_CLI4.exe"/>
+                          CustomParams="apcon_cli4.exe"/>
     </DriverDescriptors>
 </ResourceManagementExportImport>
