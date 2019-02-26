@@ -41,7 +41,14 @@ class ResourceDescription(object):
             blade_model = slots_attributes.model_name(address).value
             serial_number = slots_attributes.serial_number(address).value
             blade_address = Address(0, address)
-            chassis = chassis_dict.get(blade_address.get_chassis_address())
+
+            chassis_address = blade_address.get_chassis_address()
+            try:
+                chassis = chassis_dict[chassis_address]
+            except KeyError:
+                raise Exception(
+                    'Fail to get information for the Chassis {}'.format(chassis_address))
+
             blade = Blade(blade_address.index(), model_name, serial_number)
             blade.attributes = slots_attributes.get_attributes(address)
             blades_dict[blade_address] = blade
