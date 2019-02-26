@@ -53,7 +53,7 @@ class ApconChassisAttributes(ApconAttributes):
 
     def os_version(self, address):
         value = self._resource_table.get(address).get('os_version')
-        return StringAttribute(self.SERIAL_NUMBER, value or StringAttribute.DEFAULT_VALUE)
+        return StringAttribute(self.OS_VERSION, value or StringAttribute.DEFAULT_VALUE)
 
 
 class ApconSlotAttributes(ApconAttributes):

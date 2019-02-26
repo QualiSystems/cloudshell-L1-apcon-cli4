@@ -33,11 +33,14 @@ class AutoloadActions(object):
 
         output = CommandTemplateExecutor(self._cli_service, command_template.CHASSIS_INFO).execute_command()
         chassis_table = {}
-        chassis_table_match = re.search(r"switch\s+name:\s+(?P<name>\S+)\s+" +
-                                        "switch\s+model:\s+(?P<model>\S+).*" +
-                                        "switch\s+serial\s+number:\s+(?P<serial_number>\S+)\s+.*" +
-                                        "controller\s+software:\s+(?P<os_version>\S+)\s+", output,
-                                        flags=(re.DOTALL + re.IGNORECASE))
+        chassis_table_match = re.search(
+            r"switch\s+name:\s+(?P<name>\S+)\s+"
+            r"switch\s+model:\s+(?P<model>\S+).*"
+            r"switch\s+serial\s+number:\s+(?P<serial_number>\S+)\s+.*"
+            r"(controller|cntrl)\s+software:\s+(?P<os_version>\S+)\s+",
+            output,
+            flags=(re.DOTALL + re.IGNORECASE)
+        )
         if chassis_table_match:
             chassis_table[Address(0)] = chassis_table_match.groupdict()
         return chassis_table
