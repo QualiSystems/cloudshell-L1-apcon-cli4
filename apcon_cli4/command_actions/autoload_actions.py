@@ -129,9 +129,14 @@ class AutoloadActions(object):
                         src_port, connection_type, dst_port = match.groups()
                         map_type = map_types_dict.get(connection_type)
 
-                        if map_type == 'bidi' or map_type == 'uni' and src_port == port:
-                            incoming_port = Address(0, map_info.split()[-1][:1], dst_port)
-                            port_info_dict["mapped_to"] = incoming_port
+                        if map_type == 'uni' and dst_port == port:
+                            mapped_port = Address(0, map_info.split()[-1][:1], src_port)
+                        elif map_type == 'bidi':
+                            mapped_port = Address(0, map_info.split()[-1][:1], dst_port)
+                        else:
+                            continue
+
+                        port_info_dict["mapped_to"] = mapped_port
 
             port_dict[Address(0, port[:1], port)] = port_info_dict
         return port_dict
