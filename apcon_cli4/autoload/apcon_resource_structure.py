@@ -106,12 +106,9 @@ class ApconPortAttributes(ApconAttributes):
 
     def duplex(self, address):
         value = self._resource_table.get(address).get('duplex')
-        if re.match(r'full', value, flags=re.IGNORECASE):
-            num_value = '3'
-        elif re.match(r'half', value, flags=re.IGNORECASE):
+        num_value = '3'
+        if re.match(r'half', value, flags=re.IGNORECASE):
             num_value = '2'
-        else:
-            num_value = NumericAttribute.DEFAULT_VALUE
 
         return NumericAttribute(self.DUPLEX, num_value)
 
