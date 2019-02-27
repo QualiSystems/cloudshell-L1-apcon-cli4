@@ -25,7 +25,7 @@ class ResourceDescription(object):
         chassis_dict = {}
         chassis_attributes = ApconChassisAttributes(self._chassis_table)
         for address, record in self._chassis_table.iteritems():
-            model_name = 'Generic Apcon Chassis'
+            model_name = 'Apcon Cli4 Chassis'
             serial_number = chassis_attributes.serial_number(address).value
             chassis = Chassis(address.index(), self._resource_address, model_name, serial_number)
             chassis.attributes = chassis_attributes.get_attributes(address)
