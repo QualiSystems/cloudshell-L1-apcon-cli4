@@ -32,19 +32,19 @@ class MappingActions(object):
             src_port=src_port.split("/")[-1], dst_port=dst_port.split("/")[-1])
         return output
 
-    def map_uni(self, src_port, dst_port):
+    def map_uni(self, src_port, dst_ports):
         """
         Unidirectional mapping
-        :param src_port: 
-        :param dst_port: 
+        :type src_port: str
+        :type dst_ports: list
         :return:
         """
 
-        if len(dst_port) > 1:
+        if len(dst_ports) > 1:
             raise Exception('Not supported')
 
         tap_src_port = src_port.split("/")[-1]
-        tap_dst_port = dst_port[0].split("/")[-1]
+        tap_dst_port = dst_ports[0].split("/")[-1]
         bidi_dst_port = None
         current_config = CommandTemplateExecutor(self._cli_service,
                                                  command_template.GET_CURRENT_CONNECTIONS).execute_command()
@@ -61,7 +61,7 @@ class MappingActions(object):
                 src_port=tap_src_port, dst_port=bidi_dst_port, tap_port=tap_dst_port)
         else:
             output = CommandTemplateExecutor(self._cli_service, command_template.MAP_UNI).execute_command(
-                src_port=src_port.split("/")[-1], dst_port=dst_port[0].split("/")[-1])
+                src_port=src_port.split("/")[-1], dst_port=dst_ports[0].split("/")[-1])
         return output
 
     def map_clear(self, ports):

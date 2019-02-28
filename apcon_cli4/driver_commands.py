@@ -33,10 +33,10 @@ class DriverCommands(DriverCommandsInterface):
             _mapping_actions = MappingActions(session, self._logger)
             _mapping_actions.map_bidi(src_port, dst_port)
 
-    def map_uni(self, src_port, dst_port):
+    def map_uni(self, src_port, dst_ports):
         with self._cli_handler.default_mode_service() as session:
             _mapping_actions = MappingActions(session, self._logger)
-            _mapping_actions.map_uni(src_port, dst_port)
+            _mapping_actions.map_uni(src_port, dst_ports)
 
     def get_resource_description(self, address):
         with self._cli_handler.default_mode_service() as session:
