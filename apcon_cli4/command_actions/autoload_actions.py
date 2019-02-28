@@ -13,6 +13,8 @@ class AutoloadActions(object):
     Autoload actions
     """
 
+    PORT_CONNECTION_PATTERN = re.compile(r'([a-z]\d+)\s*([<>]+)\s*([a-z]\d+)', re.IGNORECASE)
+
     def __init__(self, cli_service, logger):
         """
         :param cli_service: default mode cli_service
@@ -121,15 +123,20 @@ class AutoloadActions(object):
                     # A15 Incoming mapping = A20
                     # A20 Incoming mapping = A15
                     map_info = port_info_line.split(":")[-1].strip()
-                    if map_info and port in map_info:
-                        map_type = map_types_dict.get(map_info.split()[1])
-                        if map_type:
-                            if map_info.split()[-1] == port:
-                                incoming_port_id = map_info.split()[0]
-                            else:
-                                incoming_port_id = map_info.split()[-1]
-                            incoming_port = Address(0, map_info.split()[-1][:1], incoming_port_id)
-                            port_info_dict["mapped_to"] = incoming_port
+                    match = self.PORT_CONNECTION_PATTERN.search(map_info)
+
+                    if match:
+                        src_port, connection_type, dst_port = match.groups()
+                        map_type = map_types_dict.get(connection_type)
+
+                        if map_type == 'uni' and dst_port == port:
+                            mapped_port = Address(0, map_info.split()[-1][:1], src_port)
+                        elif map_type == 'bidi':
+                            mapped_port = Address(0, map_info.split()[-1][:1], dst_port)
+                        else:
+                            continue
+
+                        port_info_dict["mapped_to"] = mapped_port
 
             port_dict[Address(0, port[:1], port)] = port_info_dict
         return port_dict
